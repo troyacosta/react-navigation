@@ -41,7 +41,9 @@ After completing this assignment, you be able to effectively use
 
 
 ## Normal Mode
-Fork and clone this repository. After cloning, cd into the new directory and run the `tiyfe` command.
+Fork and clone this repository. After cloning, cd into the new directory and run the tiyfe command.
+
+You will need to add your own parse API tokens using `Parse.initialize(...)` in the scripts/main.js file in order for this code to work.
 
 In this assignment you will implement an event driven navigation component. The navigation should change depending on:
 
