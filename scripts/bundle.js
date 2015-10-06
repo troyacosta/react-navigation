@@ -3480,9 +3480,7 @@ function drainQueue() {
         currentQueue = queue;
         queue = [];
         while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
+            currentQueue[queueIndex].run();
         }
         queueIndex = -1;
         len = queue.length;
@@ -3534,6 +3532,7 @@ process.binding = function (name) {
     throw new Error('process.binding is not supported');
 };
 
+// TODO(shtylman)
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
@@ -32690,58 +32689,23 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
-		var currentPage = Backbone.history.getFragment();
-
-		var links = [React.createElement(
-			'li',
-			{ key: 'home', className: currentPage === '' ? 'active' : '' },
-			React.createElement(
-				'a',
-				{ href: '#' },
-				'Home'
-			)
-		)];
-
+		var nav = [];
+		nav.push(this.showNavLinks('', 'Home'));
 		if (Parse.User.current()) {
-			links.push(React.createElement(
+			nav.push(this.showNavLinks('dashboard', 'Dashboard'));
+			nav.push(React.createElement(
 				'li',
-				{ key: 'dashboard', className: currentPage === 'dashboard' ? 'active' : '' },
+				null,
 				React.createElement(
 					'a',
-					{ href: '#dashboard' },
-					'Dashboard'
-				)
-			));
-			links.push(React.createElement(
-				'li',
-				{ key: 'logout' },
-				React.createElement(
-					'a',
-					{ href: '#logout' },
+					{ href: '#', onClick: this.logout },
 					'Logout'
 				)
 			));
 		} else {
-			links.push(React.createElement(
-				'li',
-				{ key: 'login', className: currentPage === 'login' ? 'active' : '' },
-				React.createElement(
-					'a',
-					{ href: '#login' },
-					'Login'
-				)
-			));
-			links.push(React.createElement(
-				'li',
-				{ key: 'register', className: currentPage === 'register' ? 'active' : '' },
-				React.createElement(
-					'a',
-					{ href: '#register' },
-					'Register'
-				)
-			));
+			nav.push(this.showNavLinks('login', 'Login'));
+			nav.push(this.showNavLinks('register', 'Register'));
 		}
-
 		return React.createElement(
 			'div',
 			{ className: 'nav-wrapper' },
@@ -32753,9 +32717,38 @@ module.exports = React.createClass({
 			React.createElement(
 				'ul',
 				{ id: 'nav-mobile', className: 'right' },
-				links
+				nav
 			)
 		);
+	},
+	showNavLinks: function showNavLinks(url, buttonName) {
+		var currentUrl = Backbone.history.getFragment();
+		if (currentUrl === url) {
+			return React.createElement(
+				'li',
+				{ key: url, className: 'active' },
+				React.createElement(
+					'a',
+					{ href: '#' + url },
+					buttonName
+				)
+			);
+		} else {
+			return React.createElement(
+				'li',
+				{ key: url },
+				React.createElement(
+					'a',
+					{ href: '#' + url },
+					buttonName
+				)
+			);
+		}
+	},
+	logout: function logout(e) {
+		e.preventDefault();
+		Parse.User.logOut();
+		this.props.router.navigate('', { trigger: true });
 	}
 });
 
@@ -32861,10 +32854,9 @@ module.exports = React.createClass({
 'use strict';
 var React = require('react');
 var Backbone = require('backbone');
+Parse.initialize('SF7CSqlj4DZUMd8AejUWY7Ankd5IdQwXnGIhwpjg', 'yyuhQ8AbidgVlwYgGCYd7o2i74VWAcgOAMX1mx9v');
 window.$ = require('jquery');
 window.jQuery = $;
-
-Parse.initialize('bWo3oxF8mUmVjOzLWZaeVYGOYRlJAUJVu9RRVVEB', 'agubNevaI7RuF4hlu4DVHQWlCc4i3EbTBLSftsLp');
 
 var NavigationComponent = require('./components/NavigationComponent');
 var HomeComponent = require('./components/HomeComponent');

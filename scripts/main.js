@@ -1,6 +1,7 @@
 'use strict';
 var React = require('react');
 var Backbone = require('backbone');
+Parse.initialize('SF7CSqlj4DZUMd8AejUWY7Ankd5IdQwXnGIhwpjg', 'yyuhQ8AbidgVlwYgGCYd7o2i74VWAcgOAMX1mx9v');
 window.$ = require('jquery');
 window.jQuery = $;
 
