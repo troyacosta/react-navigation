@@ -32690,6 +32690,7 @@ module.exports = React.createClass({
 	},
 	render: function render() {
 		var nav = [];
+		var leftNav = [];
 		nav.push(this.showNavLinks('', 'Home'));
 		if (Parse.User.current()) {
 			nav.push(this.showNavLinks('dashboard', 'Dashboard'));
@@ -32702,18 +32703,24 @@ module.exports = React.createClass({
 					'Logout'
 				)
 			));
+			leftNav.push(React.createElement(
+				'a',
+				{ href: '#', className: 'brand-logo left' },
+				'Welcome'
+			));
 		} else {
 			nav.push(this.showNavLinks('login', 'Login'));
 			nav.push(this.showNavLinks('register', 'Register'));
+			leftNav.push(React.createElement(
+				'a',
+				{ href: '#', className: 'brand-logo left' },
+				'Company'
+			));
 		}
 		return React.createElement(
 			'div',
 			{ className: 'nav-wrapper' },
-			React.createElement(
-				'a',
-				{ href: '#', className: 'brand-logo left' },
-				'Login Example'
-			),
+			leftNav,
 			React.createElement(
 				'ul',
 				{ id: 'nav-mobile', className: 'right' },

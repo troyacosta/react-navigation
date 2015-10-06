@@ -9,18 +9,21 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		var nav = [];
+		var leftNav = [];
 		nav.push(this.showNavLinks('', 'Home'));
 		if(Parse.User.current()) {
 			nav.push(this.showNavLinks('dashboard', 'Dashboard'));
 			nav.push(<li><a href="#" onClick={this.logout}>Logout</a></li>);
+			leftNav.push(<a href="#" className="brand-logo left">Welcome</a>);
 		}
 		else {
 			nav.push(this.showNavLinks('login', 'Login'));
 			nav.push(this.showNavLinks('register', 'Register'));
+			leftNav.push(<a href="#" className="brand-logo left">Company</a>);
 		}
 		return (
 			<div className="nav-wrapper">
-				<a href="#" className="brand-logo left">Login Example</a>
+				{leftNav}
 				<ul id="nav-mobile" className="right">
 					{nav}
 				</ul>
